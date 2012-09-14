@@ -4,93 +4,184 @@
   position: fixed;
   text-align: center;
   white-space: nowrap;
-  background-color: rgba(0,0,0,.6);
+  background-color: rgba(0, 0, 0, 0.6);
   top: 0;
-  left: 0; 
-  opacity:1; 
-  -webkit-animation-name:appearing;
-  -webkit-animation-duration: .5s;
-  -webkit-iteration-count: 1; 
-  -moz-animation-name:appearing;
-  -moz-animation-duration: .5s;
-  -moz-iteration-count: 1; }
+  left: 0;
+  opacity: 1;
+  -webkit-animation: appearing 0.5s 1;
+  -moz-animation: appearing 0.5s 1;
+  -o-animation: appearing 0.5s 1;
+  animation: appearing 0.5s 1; }
   #minimalbox > img {
     display: inline-block;
     max-width: 90%;
     max-height: 90%;
     vertical-align: middle; }
-  #minimalbox:before { 
+  #minimalbox:before {
     content: ' ';
     display: inline-block;
     height: 100%;
     width: 0;
     vertical-align: middle;
-    margin-right: -.3em; }
+    margin-right: -0.3em; }
   #minimalbox > .trobber {
-    position: absolute; 
-    top:50%;
-    width:100%;
-    left:0;
-    margin-top: -.5em;
-   -webkit-animation:blinking 1s infinite;
-   -moz-animation:blinking 1s infinite;
-    color:white;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    left: 0;
+    margin-top: -0.5em;
+    -webkit-animation: blinking 1s infinite;
+    -moz-animation: blinking 1s infinite;
+    -o-animation: blinking 1s infinite;
+    animation: blinking 1s infinite;
+    color: white;
     text-shadow: 1px 1px .2em black; }
   #minimalbox.disappearing {
-    -webkit-animation:disappearing .5s 1;
-    -webkit-animation-delay:.5s; 
-    -moz-animation:disappearing .5s 1;
-    -moz-animation-delay:.5s; }
-
-@-webkit-keyframes disappearing {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0;
-  }
-}
+    -webkit-animation: disappearing 0.5s 1;
+    -moz-animation: disappearing 0.5s 1;
+    -o-animation: disappearing 0.5s 1;
+    animation: disappearing 0.5s 1; }
 
 @-moz-keyframes disappearing {
   from {
     opacity: 1; }
-  to {
-    opacity: 0;
-  }
-}
 
-@-webkit-keyframes appearing {
-  from {
-    opacity: 0; }
   to {
-    opacity: 1;
-  }
-}
+    opacity: 0; } }
+
+@-webkit-keyframes disappearing {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+
+@-o-keyframes disappearing {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+
+@-ms-keyframes disappearing {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+
+@-khtml-keyframes disappearing {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+
+@keyframes disappearing {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
 
 @-moz-keyframes appearing {
   from {
     opacity: 0; }
-  to {
-    opacity: 1;
-  }
-}
 
-@-webkit-keyframes blinking {
-  0% {
+  to {
+    opacity: 1; } }
+
+@-webkit-keyframes appearing {
+  from {
     opacity: 0; }
-  61.8% {
-    opacity: 1; }
-  100% {
-    opacity: 0;
-  }
-}
+
+  to {
+    opacity: 1; } }
+
+@-o-keyframes appearing {
+  from {
+    opacity: 0; }
+
+  to {
+    opacity: 1; } }
+
+@-ms-keyframes appearing {
+  from {
+    opacity: 0; }
+
+  to {
+    opacity: 1; } }
+
+@-khtml-keyframes appearing {
+  from {
+    opacity: 0; }
+
+  to {
+    opacity: 1; } }
+
+@keyframes appearing {
+  from {
+    opacity: 0; }
+
+  to {
+    opacity: 1; } }
 
 @-moz-keyframes blinking {
   0% {
     opacity: 0; }
+
   61.8% {
     opacity: 1; }
-  100% {
-    opacity: 0;
-  }
-}
 
+  100% {
+    opacity: 0; } }
+
+@-webkit-keyframes blinking {
+  0% {
+    opacity: 0; }
+
+  61.8% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@-o-keyframes blinking {
+  0% {
+    opacity: 0; }
+
+  61.8% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@-ms-keyframes blinking {
+  0% {
+    opacity: 0; }
+
+  61.8% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@-khtml-keyframes blinking {
+  0% {
+    opacity: 0; }
+
+  61.8% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@keyframes blinking {
+  0% {
+    opacity: 0; }
+
+  61.8% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }

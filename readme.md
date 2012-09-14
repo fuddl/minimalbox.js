@@ -17,3 +17,7 @@ As the sript itself is very simple it *should* work in all browsers. But the css
 * Chrome 
 * Firefox
 * IE 8+
+
+## Contribute
+
+The current theme minimalbox.css uses [compass](http://compass-style.org/).
