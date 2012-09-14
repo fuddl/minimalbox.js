@@ -8,10 +8,10 @@
   top: 0;
   left: 0;
   opacity: 1;
-  -webkit-animation: appearing 0.5s 1;
-  -moz-animation: appearing 0.5s 1;
-  -o-animation: appearing 0.5s 1;
-  animation: appearing 0.5s 1; }
+  -webkit-animation: appearing 0.5s 1 forwards;
+  -moz-animation: appearing 0.5s 1 forwards;
+  -o-animation: appearing 0.5s 1 forwards;
+  animation: appearing 0.5s 1 forwards; }
   #minimalbox > img {
     display: inline-block;
     max-width: 90%;
@@ -24,7 +24,7 @@
     width: 0;
     vertical-align: middle;
     margin-right: -0.3em; }
-  #minimalbox > .trobber {
+  #minimalbox > .throbber {
     position: absolute;
     top: 50%;
     width: 100%;
@@ -37,10 +37,10 @@
     color: white;
     text-shadow: 1px 1px .2em black; }
   #minimalbox.disappearing {
-    -webkit-animation: disappearing 0.5s 1;
-    -moz-animation: disappearing 0.5s 1;
-    -o-animation: disappearing 0.5s 1;
-    animation: disappearing 0.5s 1; }
+    -webkit-animation: disappearing 0.5s 1 forwards;
+    -moz-animation: disappearing 0.5s 1 forwards;
+    -o-animation: disappearing 0.5s 1 forwards;
+    animation: disappearing 0.5s 1 forwards; }
 
 @-moz-keyframes disappearing {
   from {
