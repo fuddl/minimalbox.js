@@ -1,11 +1,12 @@
 (function() {
   var $, minimalbox;
   $ = jQuery;
-
+ 
   minimalbox = (function() {
     var container =$('<div/>', {
-      "id": 'minimalbox'
+      'id': 'minimalbox'
     });
+    var target = new Array();
 
     function minimalbox() {
       this.init();
@@ -13,16 +14,44 @@
 
     minimalbox.prototype.init = function() {
       var _this = this;
-      $('a[rel=minimalbox]').bind('click', function(e) {
-        
-        var imageUrl = $(this).attr('href');
+
+      target = $('a[rel=minimalbox]');
+
+      target.bind('click', function(e) {
+        var link = $(this);
+        var index = target.index(link);
+        var imageUrl = link.attr('href');
 
         _this.construct();
         _this.putImage(imageUrl);
+        _this.addControls(index);
 
         return false;
       });
     };
+
+    minimalbox.prototype.changeImage = function(index) {
+    
+    }
+
+    minimalbox.prototype.addControls = function(index) {
+      console.log(target[index]);
+      var prev = $(target[index - 1]);
+      var next = $(target[index + 1]);
+
+      if(prev.length) {
+        container.prepend($('<a />', {
+        'class': 'previous',
+        'href': prev.attr('href')
+        }).append('previous'));
+      }
+      if(next.length) {
+        container.append($('<a />', {
+          'class': 'next',
+          'href': next.attr('href')
+        }).append('next'));
+      }
+    }
 
     minimalbox.prototype.construct = function() {
       $('body').append(container);

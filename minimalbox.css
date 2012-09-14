@@ -12,6 +12,8 @@
   -moz-animation: appearing 0.5s 1 forwards;
   -o-animation: appearing 0.5s 1 forwards;
   animation: appearing 0.5s 1 forwards; }
+  #minimalbox > .previous, #minimalbox > .next {
+    display: none; }
   #minimalbox > img {
     display: inline-block;
     max-width: 90%;

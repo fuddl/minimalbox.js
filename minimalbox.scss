@@ -25,7 +25,10 @@
   left: 0; 
   opacity:1; 
   @include animation(appearing .5s 1 forwards);
-
+  & > .previous, 
+  & > .next {
+    display: none;
+  }
   & > img {
     display: inline-block;
     max-width: 90%;
