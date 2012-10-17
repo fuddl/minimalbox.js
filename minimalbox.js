@@ -12,56 +12,86 @@
     var target = new Array();
     var currentIndex = 0;
 
+    minimalbox.prototype.isNotFirst = function() {
+      return currentIndex > 0;
+    }
+
+    minimalbox.prototype.isNotLast = function() {
+      return currentIndex < (target.length - 1);
+    }
+
+    minimalbox.prototype.getNext = function() {
+      return currentIndex + 1;
+    }
+
+    minimalbox.prototype.getPrev = function() {
+      return currentIndex - 1;
+    }
+
+    minimalbox.prototype.getFirst = function() {
+      return 0;
+    }
+
+    minimalbox.prototype.getLast = function() {
+      return target.length - 1;
+    }
+
+    minimalbox.prototype.removeImage = function() {
+      container.children('img').remove();
+    }
+
+    minimalbox.prototype.changeImage = function(desiredIndex) {
+      minimalbox.prototype.removeImage();
+      minimalbox.prototype.putImage($(target[desiredIndex]).attr('href'));
+      currentIndex = desiredIndex;
+      container.trigger('minimalboxChange');
+    }
+
+    minimalbox.prototype.destroy = function() {
+      minimalbox.prototype.eliminate(container, function() {
+        container.children().remove();
+      });      
+    }
+
     var controls = {
-      /*
       'last': {
         'label': 'Last',
-        'index_callback': function() {
-          return target.length - 1;
-        },
-        'visibility_callback': function () {
-          return currentIndex < (target.length - 1);
-        }
+        'visible': false,
+        'type': 'goto',
+        'callback': minimalbox.prototype.getLast,
+        'condition': minimalbox.prototype.isNotLast,
+        'hotkeys': [34] // [PAGE DOWN]
       },
-      */
       'next': {
         'label': 'Next',
-        'index_callback': function() {
-          return currentIndex + 1;
-        },
-        'visibility_callback': function () {
-          return currentIndex < (target.length - 1);
-        }
+        'type': 'goto',
+        'callback': minimalbox.prototype.getNext,
+        'condition': minimalbox.prototype.isNotLast,
+        'hotkeys': [68,74,39] // [D][J][→]
       },
       'prev': {
         'label': 'Previous',
-        'index_callback': function() {
-          return currentIndex - 1;
-        },
-        'visibility_callback': function () {
-          return currentIndex > 0;
-        }
+        'type': 'goto',
+        'callback': minimalbox.prototype.getPrev,
+        'condition': minimalbox.prototype.isNotFirst,
+        'hotkeys': [65,75,37] // [A][K][←]
       },
-      /*
       'first': {
         'label': 'First',
-        'index_callback': function() {
-          return 0;
-        },
-        'visibility_callback': function () {
-          return currentIndex > 0;
-        }
+        'visible': false,
+        'type': 'goto',
+        'callback': minimalbox.prototype.getFirst,
+        'condition': minimalbox.prototype.isNotFirst,
+        'hotkeys': [33] // [PAGE UP]
       },
-      */
       'close': {
         'label': 'Close',
-        'callback': function() {
-          minimalbox.prototype.destroy(); 
-        }
+        'type': 'dest',
+        'callback': minimalbox.prototype.destroy,
+        'hotkeys': [27,8] // [esc][backspace]
       },
     };
-
-
+    
     function minimalbox() {
       this.init();
     }
@@ -84,53 +114,59 @@
       });
     };
 
-    minimalbox.prototype.changeImage = function(desiredIndex) {
-      this.removeImage();
-      this.putImage($(target[desiredIndex]).attr('href'));
-      currentIndex = desiredIndex;
-      container.trigger('minimalboxChange');
-    }
-
     minimalbox.prototype.addControls = function(index) {
       _this = this;
       jQuery.each(controls, function(name) {
+        var cmd = controls[name];
         if(container.find('.' + name).length == 0) {
-        container.prepend($('<a />', {
-          'class': name
-          })
-          .append(controls[name].label).bind('click', function() {
-          if(typeof(controls[name].index_callback) == 'function') {
-            desiredIndex = controls[name].index_callback.call();
-            _this.changeImage(desiredIndex);
+          var elm = $('<a />', {'class': name })
+          .append(cmd.label)
+          .bind('click', function() {
+            var mayBeExecuted = typeof(cmd.condition) == 'function' ? cmd.condition.call() : true;
+            if(mayBeExecuted) {
+              if(cmd.type == 'goto') {
+                var dest = cmd.callback.call();
+                _this.changeImage(dest);
+              } else if(cmd.type == 'dest') {
+                cmd.callback.call();
+              }
+            }
+          });
+          container.prepend(elm);
+        }
+        if(typeof(cmd.hotkeys) == 'object') {
+            $(document).bind('keydown', function(e) {
+              var mayBeExecuted = typeof(cmd.condition) == 'function' ? cmd.condition.call() : true;
+              if(cmd.hotkeys.indexOf(event.which) != -1 && mayBeExecuted) {
+                if(cmd.type == 'goto') {
+                  var dest = cmd.callback.call();
+                  _this.changeImage(dest);
+                } else if(cmd.type == 'dest') {
+                  cmd.callback.call();
+                }
+              }
+            });
           }
-          if(typeof(controls[name].callback) == 'function') {
-            controls[name].callback.call();
-          }
-        }));
-      }
       });
       _this.refreshControls();
     }
 
+
     minimalbox.prototype.refreshControls = function(index) {
       $.each(controls, function(name) {
-        if(typeof(controls[name].visibility_callback) == 'function') {
-          var isVisible = controls[name].visibility_callback.call();
-          if(!isVisible) {
-            container.find('.' + name).hide();
-          } else {
-            container.find('.' + name).show();
-          }
+        var cmd = controls[name];
+        var mayBeExecuted = typeof(cmd.condition) == 'function' ? cmd.condition.call() : true;
+        elm = container.find('.' + name);
+        if(mayBeExecuted) {
+          elm.removeClass('disabled');
+        } else {
+          elm.addClass('disabled');
         }
       });
     };
 
     minimalbox.prototype.construct = function() {
       $('body').append(container);
-    }
-
-    minimalbox.prototype.removeImage = function() {
-      container.children('img').remove();
     }
 
     minimalbox.prototype.putImage = function(url) {
@@ -152,12 +188,6 @@
 
     minimalbox.prototype.removeTrobber = function() {
       this.eliminate(container.children('.throbber'));  
-    }
-
-    minimalbox.prototype.destroy = function() {
-      this.eliminate(container, function() {
-        container.children().remove();
-      });      
     }
 
     minimalbox.prototype.eliminate = function(el, callback) {
