@@ -5,8 +5,62 @@
   minimalbox = (function() {
     var container =$('<div/>', {
       'id': 'minimalbox'
+    }).bind('minimalboxChange', function() {
+      minimalbox.prototype.refreshControls();
     });
+
     var target = new Array();
+    var currentIndex = 0;
+
+    var controls = {
+      /*
+      'last': {
+        'label': 'Last',
+        'index_callback': function() {
+          return target.length - 1;
+        },
+        'visibility_callback': function () {
+          return currentIndex < (target.length - 1);
+        }
+      },
+      */
+      'next': {
+        'label': 'Next',
+        'index_callback': function() {
+          return currentIndex + 1;
+        },
+        'visibility_callback': function () {
+          return currentIndex < (target.length - 1);
+        }
+      },
+      'prev': {
+        'label': 'Previous',
+        'index_callback': function() {
+          return currentIndex - 1;
+        },
+        'visibility_callback': function () {
+          return currentIndex > 0;
+        }
+      },
+      /*
+      'first': {
+        'label': 'First',
+        'index_callback': function() {
+          return 0;
+        },
+        'visibility_callback': function () {
+          return currentIndex > 0;
+        }
+      },
+      */
+      'close': {
+        'label': 'Close',
+        'callback': function() {
+          minimalbox.prototype.destroy(); 
+        }
+      },
+    };
+
 
     function minimalbox() {
       this.init();
@@ -14,47 +68,69 @@
 
     minimalbox.prototype.init = function() {
       var _this = this;
-
+      
       target = $('a[rel=minimalbox]');
 
       target.bind('click', function(e) {
         var link = $(this);
-        var index = target.index(link);
+        currentIndex = target.index(link);
         var imageUrl = link.attr('href');
 
         _this.construct();
         _this.putImage(imageUrl);
-        _this.addControls(index);
+        _this.addControls(currentIndex);
 
         return false;
       });
     };
 
-    minimalbox.prototype.changeImage = function(index) {
-    
+    minimalbox.prototype.changeImage = function(desiredIndex) {
+      this.removeImage();
+      this.putImage($(target[desiredIndex]).attr('href'));
+      currentIndex = desiredIndex;
+      container.trigger('minimalboxChange');
     }
 
     minimalbox.prototype.addControls = function(index) {
-      console.log(target[index]);
-      var prev = $(target[index - 1]);
-      var next = $(target[index + 1]);
-
-      if(prev.length) {
+      _this = this;
+      jQuery.each(controls, function(name) {
+        if(container.find('.' + name).length == 0) {
         container.prepend($('<a />', {
-        'class': 'previous',
-        'href': prev.attr('href')
-        }).append('previous'));
+          'class': name
+          })
+          .append(controls[name].label).bind('click', function() {
+          if(typeof(controls[name].index_callback) == 'function') {
+            desiredIndex = controls[name].index_callback.call();
+            _this.changeImage(desiredIndex);
+          }
+          if(typeof(controls[name].callback) == 'function') {
+            controls[name].callback.call();
+          }
+        }));
       }
-      if(next.length) {
-        container.append($('<a />', {
-          'class': 'next',
-          'href': next.attr('href')
-        }).append('next'));
-      }
+      });
+      _this.refreshControls();
     }
+
+    minimalbox.prototype.refreshControls = function(index) {
+      $.each(controls, function(name) {
+        if(typeof(controls[name].visibility_callback) == 'function') {
+          var isVisible = controls[name].visibility_callback.call();
+          if(!isVisible) {
+            container.find('.' + name).hide();
+          } else {
+            container.find('.' + name).show();
+          }
+        }
+      });
+    };
 
     minimalbox.prototype.construct = function() {
       $('body').append(container);
+    }
+
+    minimalbox.prototype.removeImage = function() {
+      container.children('img').remove();
     }
 
     minimalbox.prototype.putImage = function(url) {
@@ -65,9 +141,7 @@
         "src": url
       }).bind('load', function() {
         _this.removeTrobber();
-      })).bind('click', function() {
-        _this.destroy();
-      });
+      }));
     }
 
     minimalbox.prototype.showTrobber = function() {

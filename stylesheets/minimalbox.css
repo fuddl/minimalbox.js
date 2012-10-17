@@ -1,3 +1,13 @@
+.icons-sprite, #minimalbox > .close, #minimalbox > .prev, #minimalbox > .next {
+  background: url('../images/icons-s53a89976de.png') no-repeat; }
+
+#minimalbox > .close, #minimalbox > .prev, #minimalbox > .next {
+  cursor: pointer;
+  display: inline-block;
+  text-indent: 100%;
+  overflow: hidden;
+  position: absolute; }
+
 #minimalbox {
   height: 100%;
   width: 100%;
@@ -12,8 +22,26 @@
   -moz-animation: appearing 0.5s 1 forwards;
   -o-animation: appearing 0.5s 1 forwards;
   animation: appearing 0.5s 1 forwards; }
-  #minimalbox > .previous, #minimalbox > .next {
-    display: none; }
+  #minimalbox > .close {
+    background-position: 0 -94px;
+    height: 94px;
+    width: 82px;
+    top: 0;
+    right: 0; }
+  #minimalbox > .prev {
+    background-position: 0 -188px;
+    height: 94px;
+    width: 82px;
+    left: 0;
+    top: 50%;
+    margin-top: -47px; }
+  #minimalbox > .next {
+    background-position: 0 -282px;
+    height: 94px;
+    width: 82px;
+    right: 0;
+    top: 50%;
+    margin-top: -47px; }
   #minimalbox > img {
     display: inline-block;
     max-width: 90%;
