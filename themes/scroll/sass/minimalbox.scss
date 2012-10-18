@@ -17,21 +17,37 @@ $icons-sprite-dimensions:true;
   @keyframes #{$name} { @content; }
 }
 
+@import "compass/css3/user-interface";
+@import "compass/css3/transition";
+
+$buttonmargin:20px;
+
 %button {
   cursor: pointer;
   display:inline-block;
   text-indent:100%;
   overflow:hidden;
   position:absolute;
+  @include transition(opacity .5s ease-in-out);
+  &.disabled {
+    opacity:0;
+  }
+}
+
+body.has-minimalbox {
+  overflow:hidden;
 }
 
 #minimalbox {
-  height: 100%;
+  @include user-select(none);
+  height: 100%; 
   width: 100%;
   position: fixed;
   text-align: center;
   white-space: nowrap;
-  background-color: rgba(0,0,0,.6);
+  overflow-x:auto;
+  overflow-y:none;
+  background-color: black;
   top: 0;
   left: 0; 
   opacity:1; 
@@ -39,36 +55,33 @@ $icons-sprite-dimensions:true;
   & > .close {
     @include icons-sprite(close);
     @extend %button;
-    top:0;
-    right:0;
+    top:$buttonmargin;
+    right:$buttonmargin;
   }
-  & > .prev {
+  & > .prev { 
     @include icons-sprite(prev);
     @extend %button;
-    left:0;
-    top:50%;
+    left:$buttonmargin;
+    top:50%;  
     margin-top:(icons-sprite-height(prev)/2)*-1;
   }
   & > .next {
     @include icons-sprite(next);
     @extend %button;
-    right:0;
+    right:$buttonmargin;
     top:50%;
     margin-top:(icons-sprite-height(next)/2)*-1;
   }
   & > img {
-    display: inline-block;
-    max-width: 90%;
-    max-height: 90%;
-    vertical-align: middle; 
-  }
-  &:before { 
-    content: ' ';
-    display: inline-block;
-    height: 100%;
-    width: 0;
-    vertical-align: middle;
-    margin-right: -.3em; 
+    @include animation(appearing .5s 1 forwards);
+    &.disappearing {
+      @include animation(disappearing .5s 1 forwards);
+    }
+    &.new {
+      opacity:0;
+      position:absolute;
+      @include animation(none);
+    }
   }
   & > .throbber {
     position: absolute; 
@@ -80,7 +93,7 @@ $icons-sprite-dimensions:true;
     color:white;
     text-shadow: 1px 1px .2em black; 
   }
-    &.disappearing {
+  &.disappearing {
     @include animation(disappearing .5s 1 forwards); 
   }
 }

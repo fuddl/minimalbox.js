@@ -1,20 +1,33 @@
 .icons-sprite, #minimalbox > .close, #minimalbox > .prev, #minimalbox > .next {
-  background: url('../images/icons-s53a89976de.png') no-repeat; }
+  background: url('../images/icons-s4bd59d9992.png') no-repeat; }
 
 #minimalbox > .close, #minimalbox > .prev, #minimalbox > .next {
   cursor: pointer;
   display: inline-block;
   text-indent: 100%;
   overflow: hidden;
-  position: absolute; }
+  position: absolute;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out; }
+  #minimalbox > .disabled.close, #minimalbox > .disabled.prev, #minimalbox > .disabled.next {
+    opacity: 0; }
+
+body.has-minimalbox {
+  overflow: hidden; }
 
 #minimalbox {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   height: 100%;
   width: 100%;
   position: fixed;
   text-align: center;
   white-space: nowrap;
-  background-color: rgba(0, 0, 0, 0.6);
+  overflow: auto;
+  background-color: black;
   top: 0;
   left: 0;
   opacity: 1;
@@ -23,37 +36,42 @@
   -o-animation: appearing 0.5s 1 forwards;
   animation: appearing 0.5s 1 forwards; }
   #minimalbox > .close {
-    background-position: 0 -94px;
-    height: 94px;
-    width: 82px;
-    top: 0;
-    right: 0; }
+    background-position: 0 0;
+    height: 34px;
+    width: 30px;
+    top: 10px;
+    right: 10px; }
   #minimalbox > .prev {
-    background-position: 0 -188px;
-    height: 94px;
-    width: 82px;
-    left: 0;
+    background-position: 0 -68px;
+    height: 34px;
+    width: 30px;
+    left: 10px;
     top: 50%;
-    margin-top: -47px; }
+    margin-top: -17px; }
   #minimalbox > .next {
-    background-position: 0 -282px;
-    height: 94px;
-    width: 82px;
-    right: 0;
+    background-position: 0 -34px;
+    height: 34px;
+    width: 30px;
+    right: 10px;
     top: 50%;
-    margin-top: -47px; }
+    margin-top: -17px; }
   #minimalbox > img {
-    display: inline-block;
-    max-width: 90%;
-    max-height: 90%;
-    vertical-align: middle; }
-  #minimalbox:before {
-    content: ' ';
-    display: inline-block;
-    height: 100%;
-    width: 0;
-    vertical-align: middle;
-    margin-right: -0.3em; }
+    -webkit-animation: appearing 0.5s 1 forwards;
+    -moz-animation: appearing 0.5s 1 forwards;
+    -o-animation: appearing 0.5s 1 forwards;
+    animation: appearing 0.5s 1 forwards; }
+    #minimalbox > img.disappearing {
+      -webkit-animation: disappearing 0.5s 1 forwards;
+      -moz-animation: disappearing 0.5s 1 forwards;
+      -o-animation: disappearing 0.5s 1 forwards;
+      animation: disappearing 0.5s 1 forwards; }
+    #minimalbox > img.new {
+      opacity: 0;
+      position: absolute;
+      -webkit-animation: none;
+      -moz-animation: none;
+      -o-animation: none;
+      animation: none; }
   #minimalbox > .throbber {
     position: absolute;
     top: 50%;
