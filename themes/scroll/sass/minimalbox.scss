@@ -27,7 +27,8 @@ $buttonmargin:20px;
   display:inline-block;
   text-indent:100%;
   overflow:hidden;
-  position:absolute;
+  position:fixed;
+  z-index:1;
   @include transition(opacity .5s ease-in-out);
   &.disabled {
     opacity:0;
@@ -72,15 +73,16 @@ body.has-minimalbox {
     top:50%;
     margin-top:(icons-sprite-height(next)/2)*-1;
   }
-  & > img {
+  & .image {
     @include animation(appearing .5s 1 forwards);
+    position:absolute;
+    height:100%;
+    width:100%;
+    display: block;
     &.disappearing {
       @include animation(disappearing .5s 1 forwards);
-    }
-    &.new {
-      opacity:0;
       position:absolute;
-      @include animation(none);
+      opacity:1;
     }
   }
   & > .throbber {

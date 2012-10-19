@@ -6,7 +6,8 @@
   display: inline-block;
   text-indent: 100%;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
+  z-index: 1;
   -webkit-transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
   -o-transition: opacity 0.5s ease-in-out;
@@ -56,23 +57,22 @@ body.has-minimalbox {
     right: 20px;
     top: 50%;
     margin-top: -17px; }
-  #minimalbox > img {
+  #minimalbox .image {
     -webkit-animation: appearing 0.5s 1 forwards;
     -moz-animation: appearing 0.5s 1 forwards;
     -o-animation: appearing 0.5s 1 forwards;
-    animation: appearing 0.5s 1 forwards; }
-    #minimalbox > img.disappearing {
+    animation: appearing 0.5s 1 forwards;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block; }
+    #minimalbox .image.disappearing {
       -webkit-animation: disappearing 0.5s 1 forwards;
       -moz-animation: disappearing 0.5s 1 forwards;
       -o-animation: disappearing 0.5s 1 forwards;
-      animation: disappearing 0.5s 1 forwards; }
-    #minimalbox > img.new {
-      opacity: 0;
+      animation: disappearing 0.5s 1 forwards;
       position: absolute;
-      -webkit-animation: none;
-      -moz-animation: none;
-      -o-animation: none;
-      animation: none; }
+      opacity: 1; }
   #minimalbox > .throbber {
     position: absolute;
     top: 50%;
