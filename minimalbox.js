@@ -3,7 +3,10 @@
   var currentIndex = 0;
   var container = $('<div/>', {
     'id': 'minimalbox'
-  });
+  }).append('<!--before--><!--content--><!--after-->');
+  var itemContainer = $('<span/>', {
+    'class': 'image'
+  }).append('<!--inner_before--><!--inner_content--><!--inner_after-->');
   var settings;
 
   var methods = {
@@ -24,14 +27,18 @@
             'type': 'goto',
             'callback': 'getNext',
             'condition': 'isNotLast',
-            'hotkeys': [68,74,39] // [D][J][→]
+            'hotkeys': [68,74,39], // [D][J][→]
+            'region': 'after',
+            'weight': 0 
           },
           'prev': {
             'label': 'Previous',
             'type': 'goto',
             'callback': 'getPrev',
             'condition': 'isNotFirst',
-            'hotkeys': [65,75,37] // [A][K][←]
+            'hotkeys': [65,75,37], // [A][K][←]
+            'region': 'before',
+            'weight': 0 
           },
           'first': {
             'label': 'First',
@@ -45,7 +52,9 @@
             'label': 'Close',
             'type': 'execute',
             'callback': 'destroy',
-            'hotkeys': [27,8] // [esc][backspace]
+            'hotkeys': [27,8], // [esc][backspace]
+            'region': 'after',
+            'weight': 0 
           }
         }
       }, options);
@@ -56,20 +65,13 @@
         currentIndex = _this.index(link);
         var imageUrl = link.attr('href');
         _this.minimalbox('construct');
-        _this.minimalbox('construct');
         _this.minimalbox('putImage', imageUrl);
         _this.minimalbox('addControls', currentIndex);
 
-        container.find('img').removeClass('new'); 
+        container.find('.image').removeClass('new'); 
         return false;
        
       });
-    },
-    goto : function( ) {
-      // IS
-    },
-    destroy : function( ) { 
-      // GOOD
     },
     isNotFirst: function() {
       return currentIndex > 0;
@@ -104,13 +106,31 @@
     changeImage: function(desiredIndex) {
       currentIndex = desiredIndex;
       this.minimalbox('refreshControls');
-      var oldImg = container.children('img');
+      var oldImg = container.children('.image');
       if(!oldImg.hasClass('disappearing')) {
         this.minimalbox('putImage', $(this[desiredIndex]).attr('href'));
         this.minimalbox('eliminate', oldImg, function() {
-          container.find('img').removeClass('new');
+          oldImg.removeClass('new');
         });
         container.trigger('minimalboxChange');
+        this.minimalbox('preload', 'next');
+        this.minimalbox('preload', 'prev');
+      }
+    },
+    preload: function(image) {
+      switch (image) {
+        case 'next':
+          cond = 'isNotLast';
+          call = 'getNext';
+          break;
+        case 'prev':          
+          cond = 'isNotFirst';
+          call = 'getPrev';
+          break;
+      }
+      if (this.minimalbox(cond)) {
+        var preloadNext = new Image;
+        preloadNext.src = this[this.minimalbox(call)].link;
       }
     },
     addControls: function(index) {
@@ -130,12 +150,13 @@
               }
             }
           });
-          container.prepend(elm);
+          container.minimalbox('addToRegion', elm, cmd.region);
         }
-        if(typeof(cmd.hotkeys) == 'object') {
+        if(typeof(cmd.hotkeys) == 'object')  {
             $(document).bind('keydown', function(e) {
               var mayBeExecuted = typeof(cmd.condition) == 'undefined' ? true : _this.minimalbox(cmd.condition);
               if(cmd.hotkeys.indexOf(e.which) != -1 && mayBeExecuted) {
+                e.preventDefault();
                 if(cmd.type == 'goto') {
                   _this.minimalbox('changeImage', _this.minimalbox(cmd.callback));
                 } else if(cmd.type == 'execute') {
@@ -146,6 +167,13 @@
           }
       });
       _this.minimalbox('refreshControls');
+    },
+    addToRegion: function(elem, region) {
+      $.each(this.contents(), function() {
+        if(this.nodeType === 8 && this.nodeValue === region) {
+          $(this).after(elem);
+        }
+      });
     },
     refreshControls: function() {
       $.each(settings.controls, function(name) {
@@ -163,12 +191,16 @@
       var _this = this;
       _this.minimalbox('showTrobber');
 
-      container.append($('<img/>', {
+      var img = $('<img/>', {
         "src": url,
         "class": 'new'
       }).bind('load', function() {
         _this.minimalbox('removeTrobber');
-      }));
+      });
+      
+      var thisItemContainer = itemContainer.clone();
+      thisItemContainer.minimalbox('addToRegion', img, 'inner_content')
+      container.minimalbox('addToRegion', thisItemContainer, 'content');
     },
     showTrobber: function() {
       container.append($('<span />', {
@@ -223,7 +255,7 @@
     } else if ( typeof method === 'object' || ! method ) {
       return methods.init.apply( this, arguments );
     } else {
-      $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+      $.error( 'Method ' +  method + ' does not exist in minimalbox.js' );
     } 
   };
 

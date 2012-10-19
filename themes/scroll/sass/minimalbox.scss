@@ -80,7 +80,7 @@ body.has-minimalbox {
     width:100%;
     display: block;
     &.disappearing {
-      @include animation(disappearing .5s 1 forwards);
+      @include animation(disappearing .5s .2s 1 forwards);
       position:absolute;
       opacity:1;
     }

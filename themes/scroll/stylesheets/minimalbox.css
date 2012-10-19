@@ -67,10 +67,10 @@ body.has-minimalbox {
     width: 100%;
     display: block; }
     #minimalbox .image.disappearing {
-      -webkit-animation: disappearing 0.5s 1 forwards;
-      -moz-animation: disappearing 0.5s 1 forwards;
-      -o-animation: disappearing 0.5s 1 forwards;
-      animation: disappearing 0.5s 1 forwards;
+      -webkit-animation: disappearing 0.5s 0.2s 1 forwards;
+      -moz-animation: disappearing 0.5s 0.2s 1 forwards;
+      -o-animation: disappearing 0.5s 0.2s 1 forwards;
+      animation: disappearing 0.5s 0.2s 1 forwards;
       position: absolute;
       opacity: 1; }
   #minimalbox > .throbber {
