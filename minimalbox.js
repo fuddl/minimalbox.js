@@ -1,5 +1,4 @@
 (function( $ ) {
-
   var currentIndex = 0;
   var container = $('<div/>', {
     'id': 'minimalbox'
@@ -8,7 +7,6 @@
     'class': 'image'
   }).append('<!--inner_before--><!--inner_content--><!--inner_after-->');
   var settings;
-
   var methods = {
     init : function(options) {
       _this = this;
@@ -58,10 +56,8 @@
           }
         }
       }, options);
-
       this.bind('click', function() {
         var link = $(this);
-
         currentIndex = _this.index(link);
         var imageUrl = link.attr('href');
         _this.minimalbox('construct');
@@ -70,7 +66,6 @@
 
         container.find('.image').removeClass('new');
         return false;
-
       });
     },
     isNotFirst: function() {
@@ -190,14 +185,12 @@
     putImage: function(url) {
       var _this = this;
       _this.minimalbox('showTrobber');
-
       var img = $('<img/>', {
         "src": url,
         "class": 'new'
       }).bind('load', function() {
         _this.minimalbox('removeTrobber');
       });
-
       var thisItemContainer = itemContainer.clone();
       thisItemContainer.minimalbox('addToRegion', img, 'inner_content')
       container.minimalbox('addToRegion', thisItemContainer, 'content');
@@ -211,7 +204,6 @@
       var duration = 0;
       var delay = 0;
       var iterationCount = 1;
-
       durationAttr = el.css('animation-duration');
       if(typeof(durationAttr) == 'string' && parseFloat(durationAttr) != 0 && duration == 0) {
         var multiplier = durationAttr.match(/ms/) ? 1 : 1000;
@@ -228,7 +220,6 @@
       } else {
         return 0;
       }
-
       return (duration + delay) * iterationCount;
     },
     eliminate: function(el, callback) {
@@ -247,9 +238,7 @@
       _this.minimalbox('eliminate', container.children('.throbber'));
     }
   };
-
   $.fn.minimalbox = function(method) {
-
     if (methods[method]) {
       return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
     } else if ( typeof method === 'object' || ! method ) {
@@ -258,10 +247,8 @@
       $.error( 'Method ' +  method + ' does not exist in minimalbox.js' );
     }
   };
-
   $(function() {
     $('a[rel=minimalbox]').minimalbox();
   });
-
 })( jQuery );
 
