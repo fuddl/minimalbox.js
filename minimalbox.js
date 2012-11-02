@@ -29,7 +29,7 @@
             'condition': 'isNotLast',
             'hotkeys': [68,74,39], // [D][J][→]
             'region': 'after',
-            'weight': 0 
+            'weight': 0
           },
           'prev': {
             'label': 'Previous',
@@ -38,7 +38,7 @@
             'condition': 'isNotFirst',
             'hotkeys': [65,75,37], // [A][K][←]
             'region': 'before',
-            'weight': 0 
+            'weight': 0
           },
           'first': {
             'label': 'First',
@@ -54,11 +54,11 @@
             'callback': 'destroy',
             'hotkeys': [27,8], // [esc][backspace]
             'region': 'after',
-            'weight': 0 
+            'weight': 0
           }
         }
       }, options);
-     
+
       this.bind('click', function() {
         var link = $(this);
 
@@ -68,9 +68,9 @@
         _this.minimalbox('putImage', imageUrl);
         _this.minimalbox('addControls', currentIndex);
 
-        container.find('.image').removeClass('new'); 
+        container.find('.image').removeClass('new');
         return false;
-       
+
       });
     },
     isNotFirst: function() {
@@ -98,7 +98,7 @@
       this.minimalbox('eliminate', container, function() {
         container.children().remove();
         $('body.has-minimalbox').removeClass('has-minimalbox');
-      });      
+      });
     },
     construct: function() {
       $('body').addClass('has-minimalbox').append(container);
@@ -123,7 +123,7 @@
           cond = 'isNotLast';
           call = 'getNext';
           break;
-        case 'prev':          
+        case 'prev':
           cond = 'isNotFirst';
           call = 'getPrev';
           break;
@@ -142,7 +142,7 @@
           .append(cmd.label)
           .bind('click', function() {
             var mayBeExecuted = typeof(cmd.condition) == 'undefined' ? true : _this.minimalbox(cmd.condition);
-            if(mayBeExecuted) {   
+            if(mayBeExecuted) {
               if(cmd.type == 'goto') {
                 _this.minimalbox('changeImage', _this.minimalbox(cmd.callback));
               } else if(cmd.type == 'execute') {
@@ -197,7 +197,7 @@
       }).bind('load', function() {
         _this.minimalbox('removeTrobber');
       });
-      
+
       var thisItemContainer = itemContainer.clone();
       thisItemContainer.minimalbox('addToRegion', img, 'inner_content')
       container.minimalbox('addToRegion', thisItemContainer, 'content');
@@ -214,12 +214,12 @@
 
       durationAttr = el.css('animation-duration');
       if(typeof(durationAttr) == 'string' && parseFloat(durationAttr) != 0 && duration == 0) {
-        var multiplier = durationAttr.match(/ms/) ? 1 : 1000; 
+        var multiplier = durationAttr.match(/ms/) ? 1 : 1000;
         duration = parseFloat(durationAttr) * multiplier;
       }
       delayAttr = el.css('animation-delay');
       if(typeof(delayAttr) == 'string' && parseFloat(delayAttr) != 0 && delay == 0) {
-        var multiplier = delayAttr.match(/ms/) ? 1 : 1000; 
+        var multiplier = delayAttr.match(/ms/) ? 1 : 1000;
         delay = parseFloat(delayAttr) * multiplier;
       }
       iterationCountAttr = el.css('animation-iteration-count');
@@ -228,7 +228,7 @@
       } else {
         return 0;
       }
-      
+
       return (duration + delay) * iterationCount;
     },
     eliminate: function(el, callback) {
@@ -244,7 +244,7 @@
       }, delay);
     },
     removeTrobber: function() {
-      _this.minimalbox('eliminate', container.children('.throbber'));  
+      _this.minimalbox('eliminate', container.children('.throbber'));
     }
   };
 
@@ -256,7 +256,7 @@
       return methods.init.apply( this, arguments );
     } else {
       $.error( 'Method ' +  method + ' does not exist in minimalbox.js' );
-    } 
+    }
   };
 
   $(function() {
